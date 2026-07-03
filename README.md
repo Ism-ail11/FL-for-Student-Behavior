@@ -1,6 +1,6 @@
 # FL Student Behavior TinyML
 
-This repository provides a complete implementation of the paper **A Real-Time Federated TinyML Framework for Student Behavior Detection in Smart Classrooms**. It contains the full Python and shell code needed to prepare SCB-Dataset5, create IID and non-IID federated clients, train the centralized baseline, train the proximal federated model, run pruning and post-pruning fine-tuning, export deployment artifacts, benchmark host-side TFLite inference, evaluate checkpoints, run non-IID and scalability experiments, and compute communication cost.
+This repository provides a complete implementation of **A Real-Time Federated TinyML Framework for Student Behavior Detection in Smart Classrooms**. It contains the full Python and shell code needed to prepare SCB-Dataset5, create IID and non-IID federated clients, train the centralized baseline, train the proximal federated model, run pruning and post-pruning fine-tuning, export deployment artifacts, benchmark host-side TFLite inference, evaluate checkpoints, run non-IID and scalability experiments, and compute communication cost.
 
 
 ## Repository files
