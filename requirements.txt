@@ -1,0 +1,11 @@
+numpy>=1.23
+Pillow>=9.5
+PyYAML>=6.0
+tqdm>=4.65
+torch>=2.0
+torchvision>=0.15
+onnx>=1.14
+onnxruntime>=1.15
+# Optional for TFLite conversion. Install only when exporting to TFLite.
+# tensorflow>=2.13
+# onnx2tf>=1.17

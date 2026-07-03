@@ -1,0 +1,111 @@
+project:
+  name: fl_student_behavior_tinyml
+  seed: 42
+  output_dir: outputs
+
+dataset:
+  name: SCB-Dataset5
+  root: datasets/SCB-Dataset5
+  images_dir: images
+  labels_dir: labels
+  manifest_dir: data/manifests
+  image_size: 320
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  label_format: yolo
+  num_classes: 20
+  class_names:
+    - hand_raising
+    - reading
+    - writing
+    - bowing_head
+    - turning_head
+    - talking
+    - guiding
+    - board_writing
+    - standing
+    - answering
+    - stage_interaction
+    - discussing
+    - clapping
+    - yawning
+    - screen
+    - blackboard
+    - teacher
+    - leaning_on_desk
+    - using_phone
+    - using_computer
+
+model:
+  input_channels: 3
+  input_size: 320
+  grid_size: 40
+  anchors: 3
+  prediction_values_per_anchor: 25
+  output_channels: 75
+  dropout: 0.10
+  width_multiplier: 1.0
+
+loss:
+  lambda_cls: 1.0
+  lambda_obj: 1.0
+  lambda_box: 5.0
+  no_object_weight: 0.25
+
+centralized_training:
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 16
+  epochs: 100
+  early_stopping_patience: 15
+  num_workers: 4
+  confidence_threshold: 0.25
+  iou_threshold: 0.50
+
+federated_learning:
+  clients: 5
+  rounds: 50
+  local_epochs: 5
+  local_batch_size: 8
+  local_learning_rate: 0.0005
+  weight_decay: 0.0001
+  proximal_mu: 0.01
+  server_patience: 10
+  participation_rate: 1.0
+  aggregation: weighted_average
+  iid_counts: [1040, 1040, 1040, 1040, 1039]
+  noniid_alphas: [1.0, 0.5, 0.1]
+
+compression:
+  batch_norm_folding: true
+  structured_pruning_ratio: 0.40
+  pruning_keep_ratio: 0.60
+  fine_tune_epochs: 20
+  fine_tune_learning_rate: 0.00005
+  fine_tune_batch_size: 16
+  fine_tune_patience: 5
+  quantization: full_integer_int8
+  representative_samples: 512
+
+cross_dataset_validation:
+  datasets:
+    - name: UK_Dataset
+      root: datasets/UK_Dataset
+      images_dir: images
+      labels_dir: labels
+    - name: SiTBehavior
+      root: datasets/SiTBehavior
+      images_dir: images
+      labels_dir: labels
+
+deployment:
+  target_board: FRDM-K64F
+  processor: ARM Cortex-M4F
+  clock_mhz: 120
+  flash_kb: 1024
+  sram_kb: 256
+  tflite_model: outputs/deployment/student_behavior_detector_int8.tflite
+  c_array_name: student_behavior_model
+  tensor_arena_size: 196608
